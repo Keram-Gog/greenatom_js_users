@@ -1,0 +1,67 @@
+/* Основные стили для страницы */
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  padding: 0;
+  background-color: #f4f4f9;
+}
+
+h1 {
+  text-align: center;
+}
+
+#loading {
+  text-align: center;
+  margin: 20px 0;
+  font-weight: bold;
+}
+
+/* Стили для таблицы */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  border: 1px solid #ddd;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+td {
+  background-color: #fff;
+}
+
+/* Hover-эффект для строк таблицы */
+tr:hover td {
+  background-color: #f9f9f9;
+}
+
+/* Адаптивные стили для мобильных устройств */
+@media (max-width: 600px) {
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+  th {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+  td {
+    border: none;
+    position: relative;
+    padding-left: 50%;
+  }
+  td:before {
+    position: absolute;
+    left: 6px;
+    content: attr(data-label);
+    font-weight: bold;
+  }
+}

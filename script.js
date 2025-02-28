@@ -1,26 +1,49 @@
-async function fetchUsers() {
-  try {
-      // Показываем индикатор загрузки
-      document.getElementById('loading').style.display = 'block';
+import { parseNestedJSON } from './parser.js';
 
-      // Делаем GET-запрос к API
-      const response = await fetch('https://jsonplaceholder.typicode.com/users');
-      
-      // Преобразуем полученные данные в JSON
-      const users = await response.json();
-      
-      // Отправляем данные в функцию для рендеринга таблицы
-      renderTable(users);
+// Асинхронная функция для загрузки данных с API
+async function fetchUsers() {
+  const loadingEl = document.getElementById('loading');
+  const errorEl = document.getElementById('error');
+  
+  console.log('fetchUsers: Начало загрузки данных с API');
+  // Показываем индикатор загрузки
+  loadingEl.style.display = 'block';
+  
+  try {
+    const response = await fetch('https://jsonplaceholder.typicode.com/users');
+    console.log('fetchUsers: Получен ответ от сервера', response);
+    
+    if (!response.ok) {
+      throw new Error(`Ошибка HTTP: статус ${response.status}`);
+    }
+    
+    const users = await response.json();
+    console.log('fetchUsers: Данные успешно получены', users);
+    
+    // функция с parseNestedJSON преобразует каждого пользователя в плоский объект
+    const flattenedUsers = users.map(user => {
+      const flatUser = parseNestedJSON(user);
+      console.log(`fetchUsers: Плоский объект для пользователя ID ${user.id}:`, flatUser);
+      return flatUser;
+    });
+    
+    // Вывод плоских данных в консоль для отладки
+    console.log('fetchUsers: Плоские данные пользователей:', flattenedUsers);
+    
+    renderTable(users);
+    console.log('fetchUsers: Таблица успешно отрендерена');
   } catch (error) {
-      // Выводим ошибку в консоль, если что-то пошло не так
-      console.error('Ошибка при загрузке данных:', error);
+    console.error('fetchUsers: Ошибка при загрузке данных:', error);
+    errorEl.textContent = `Ошибка при загрузке данных: ${error.message}`;
+    errorEl.style.display = 'block';
   } finally {
-      // Скрываем индикатор загрузки
-      document.getElementById('loading').style.display = 'none';
+    // Скрываем индикатор загрузки
+    loadingEl.style.display = 'none';
+    console.log('fetchUsers: Загрузка завершена');
   }
 }
 
-// Функция для создания строки таблицы
+// Функция для создания строки таблицы для одного пользователя
 function createTableRow(user) {
   return `
       <tr>
@@ -36,11 +59,13 @@ function createTableRow(user) {
 
 // Функция для вставки данных пользователей в HTML-таблицу
 function renderTable(users) {
-  const tableBody = document.getElementById('usersTable'); // Получаем элемент таблицы
-
-  // Создаём строки таблицы с данными
-  tableBody.innerHTML = users.map(createTableRow).join(''); // Метод join('') убирает запятые между строками
+  const tableBody = document.getElementById('usersTable');
+  tableBody.innerHTML = users.map(createTableRow).join('');
+  console.log('renderTable: Таблица обновлена с данными пользователей');
 }
 
-// Вызываем функцию для загрузки данных при загрузке страницы
-fetchUsers();
+// Загружаем данные после полной загрузки DOM
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('DOMContentLoaded: Документ загружен, запускаем fetchUsers');
+  fetchUsers();
+});

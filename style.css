@@ -10,9 +10,18 @@ h1 {
   text-align: center;
 }
 
+/* Стили для индикатора загрузки */
 #loading {
   text-align: center;
   margin: 20px 0;
+  font-weight: bold;
+}
+
+/* Стили для сообщений об ошибках */
+.error {
+  text-align: center;
+  margin: 20px 0;
+  color: red;
   font-weight: bold;
 }
 

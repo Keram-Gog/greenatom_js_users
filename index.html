@@ -1,27 +1,29 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Users Table</title>
-    <link rel="stylesheet" href="style.css"> 
-    <script defer src="script.js"></script>  
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Users Table</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Users List</h1>
-    <div id="loading">Загрузка...</div> 
-    <table>
-        <thead>
-            <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Name</th>
-                <th scope="col">Username</th>
-                <th scope="col">Email</th>
-                <th scope="col">Phone</th>
-                <th scope="col">Address</th>
-            </tr>
-        </thead>
-        <tbody id="usersTable"></tbody> <!-- Здесь будет заполняться таблица -->
-    </table>
+  <h1>Users List</h1>
+  <div id="loading">Загрузка...</div>
+  <!-- Блок для вывода сообщений об ошибках -->
+  <div id="error" class="error" style="display: none;"></div>
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Username</th>
+        <th scope="col">Email</th>
+        <th scope="col">Phone</th>
+        <th scope="col">Address</th>
+      </tr>
+    </thead>
+    <tbody id="usersTable"></tbody>
+  </table>
+  <script type="module" src="script.js"></script>
 </body>
 </html>
